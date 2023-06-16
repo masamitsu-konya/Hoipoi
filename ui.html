@@ -1,0 +1,15 @@
+<h2>ソースコード生成プラグイン</h2>
+<button id="create">選択したオブジェクトからソースコードを生成</button>
+<button id="cancel">キャンセル</button>
+
+<script>
+
+document.getElementById('create').onclick = () => {
+  parent.postMessage({ pluginMessage: { type: 'generate-code' } }, '*')
+}
+
+document.getElementById('cancel').onclick = () => {
+  parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
+}
+
+</script>
