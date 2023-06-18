@@ -10,7 +10,10 @@ export function generateCodeFromFigmaNode(node: SceneNode, indentLevel = 0): str
   if (node.type === "COMPONENT") {
     return new Error("選択したオブジェクトにコンポーネントが含まれています。コードを生成できません。");
   }
-
+  if (!node.visible) {
+    return '';
+  }
+  
   let output = "";
   const indent = "  ".repeat(indentLevel);
   if (node.type === "INSTANCE") {
@@ -18,10 +21,6 @@ export function generateCodeFromFigmaNode(node: SceneNode, indentLevel = 0): str
     if (!SUPPORTED_MUI_COMPONENTS.includes(elementName)) {
       throw new Error(`"${elementName}"はMUIのコンポーネント名と一致しません。デバッグ情報：${JSON.stringify({nodeName: node.name, elementName, componentType})}`);
     }
-
-    // if (!supportedMuiComponents.has(elementName)) {
-    //   return new Error(`"${elementName}"はサポートされていないコンポーネントです。MUIのコンポーネント名を使用してください。`);
-    // }
     output += `${indent}<${elementName}${componentType}`;
     if (node.variantProperties) {
       for (const [key, value] of Object.entries(node.variantProperties)) {
